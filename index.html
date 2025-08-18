@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSAS at SELU - Teej & Welcome Program Fall 2025 🌺</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    .form-section { border-top: 2px dashed #fecaca; padding-top: 2rem; margin-top: 2rem; }
+    .confetti { width: 10px; height: 10px; background-color: #f00; position: absolute; animation: fall 5s linear forwards; border-radius: 50%; }
+    @keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+  </style>
+</head>
+<body class="bg-red-50 min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-3xl">
+    <!-- Event Header -->
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-red-600">🌸 Teej & Welcome Program Fall 2025 🌸</h1>
+        <p class="mt-2 text-md text-gray-500 font-semibold">Hosted by the Nepalese Student Association At Southeastern (NSAS at SELU)</p>
+        <div class="mt-6 text-left text-gray-700 space-y-4 border-l-4 border-red-200 pl-4">
+            <p>We celebrate Teej and warmly welcome all incoming fall students! This joint celebration will feature vibrant dance performances and melodious singing, creating a festive atmosphere to mark the beginning of the fall semester and embrace our cultural traditions. It's a wonderful opportunity for students to connect, enjoy cultural showcases, and build community within the Southeastern family.</p>
+        </div>
+        <div class="mt-6 space-y-3">
+            <div class="inline-flex items-center justify-center bg-red-100 text-red-800 font-semibold px-4 py-2 rounded-full text-lg">📅 Friday, August 29, 2025 | 🕔 6:00 PM - 9:00 PM</div>
+            <div class="text-gray-600 font-medium">
+                <p>📍 <strong>Main Event:</strong> Student Union Theatre, Room #2115 <br/> 303 Union Avenue, Hammond, LA 70402</p>
+                <p class="mt-1">📍 <strong>Potluck Food:</strong> Lounge in front of the Career Service Office</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Event Statistics Section -->
+    <div id="stats-section" class="form-section">
+        <h2 class="text-3xl font-bold text-center text-red-600 mb-6">Event Statistics</h2>
+        <div class="flex flex-col md:flex-row items-center justify-around gap-8">
+            <div class="text-center">
+                <p class="text-xl text-gray-600">Total Guests RSVP'd</p>
+                <p id="rsvpCount" class="text-6xl font-bold text-red-500">0</p>
+            </div>
+            <div class="w-full max-w-xs">
+                 <h3 class="text-xl text-center font-semibold text-gray-800 mb-2">Attire Color Palette</h3>
+                 <canvas id="colorPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- RSVP Form Section -->
+    <div id="rsvp-section" class="form-section">
+        <h2 class="text-3xl font-bold text-center text-red-600 mb-6">Event RSVP</h2>
+        <form id="rsvpForm" class="space-y-6 max-w-md mx-auto">
+          <div><label for="name" class="block text-gray-700 font-medium mb-2">Your Name</label><input type="text" id="name" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none transition" placeholder="e.g., Jane Doe"/></div>
+          <div><label for="email" class="block text-gray-700 font-medium mb-2">Email</label><input type="email" id="email" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none transition" placeholder="e.g., jane.doe@example.com"/></div>
+          <div><label for="phone" class="block text-gray-700 font-medium mb-2">Phone</label><input type="tel" id="phone" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none transition" placeholder="e.g., (555) 123-4567"/></div>
+          <div><label class="block text-gray-700 font-medium">Choose Your Sari Color 🥻</label><div class="flex items-center justify-center space-x-4 mt-3"><input type="radio" name="color" value="#ef4444" id="red" class="hidden peer/red" required><label for="red" class="w-12 h-12 bg-red-500 rounded-full cursor-pointer peer-checked:ring-4 ring-offset-2 ring-red-400 transition-all transform hover:scale-110"></label><input type="radio" name="color" value="#22c55e" id="green" class="hidden peer/green"><label for="green" class="w-12 h-12 bg-green-500 rounded-full cursor-pointer peer-checked:ring-4 ring-offset-2 ring-green-400 transition-all transform hover:scale-110"></label><input type="radio" name="color" value="#facc15" id="yellow" class="hidden peer/yellow"><label for="yellow" class="w-12 h-12 bg-yellow-400 rounded-full cursor-pointer peer-checked:ring-4 ring-offset-2 ring-yellow-300 transition-all transform hover:scale-110"></label><input type="radio" name="color" value="#3b82f6" id="blue" class="hidden peer/blue"><label for="blue" class="w-12 h-12 bg-blue-500 rounded-full cursor-pointer peer-checked:ring-4 ring-offset-2 ring-blue-400 transition-all transform hover:scale-110"></label></div></div>
+          <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">Confirm RSVP 💃</button>
+        </form>
+    </div>
+
+    <!-- Potluck Section -->
+    <div id="potluck-section" class="form-section">
+        <h2 class="text-3xl font-bold text-center text-red-600 mb-6">Potluck & Performances</h2>
+        <div class="mb-8"><h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">What everyone is bringing:</h3><div id="potluckList" class="bg-gray-50 rounded-lg p-4 max-h-60 overflow-y-auto space-y-3"><p class="text-center text-gray-500">Loading potluck list...</p></div></div>
+        <div class="text-center mb-8">
+             <button id="openPerformanceModalBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">Register a Performance 🎤</button>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Join the Potluck!</h3>
+        <form id="potluckForm" class="space-y-4 max-w-md mx-auto">
+            <div><label for="potluckName" class="block text-gray-700 font-medium">Full Name</label><input type="text" id="potluckName" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div>
+            <div><label for="aptNumber" class="block text-gray-700 font-medium">Apt Number (Ex: Hooks Dr, Apt 5)</label><input type="text" id="aptNumber" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div>
+            <div><label class="block text-gray-700 font-medium">Potluck Foods</label><div class="flex items-center space-x-2 mt-1"><input type="text" id="foodInput" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Add a food item"><button type="button" id="addFoodBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg">＋</button></div><div id="foodListContainer" class="mt-2 space-y-2"></div></div>
+            <div><label class="block text-gray-700 font-medium">Group Members (if any)</label><div class="flex items-center space-x-2 mt-1"><input type="text" id="groupMemberInput" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Add a person's name & apt"><button type="button" id="addMemberBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg">＋</button></div><div id="memberListContainer" class="mt-2 space-y-2"></div></div>
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition">Add to Potluck 🍲</button>
+        </form>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div id="celebration-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center transform transition-all scale-95 max-w-sm w-full relative"><p id="confirmation-text" class="text-xl font-medium">Message goes here.</p><button id="close-modal" class="mt-6 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md">Close</button></div>
+    </div>
+    
+    <!-- Performance Registration Modal -->
+    <div id="performance-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-40">
+        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-2xl max-h-full overflow-y-auto relative">
+            <form id="performanceForm">
+                <h2 class="text-3xl font-bold text-center text-red-600 mb-6">Performance Registration</h2>
+                <!-- Step 1 --><div class="form-step active"><h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Section 1 of 4: Performer Details</h3><div class="space-y-4"><div><label for="performerGroupName" class="block text-gray-700 font-medium">Name of Performer/ Group Name *</label><input type="text" id="performerGroupName" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div><div><label class="block text-gray-700 font-medium">Is this an individual or group performance? *</label><div class="mt-2 space-x-4"><label><input type="radio" name="performanceCategory" value="Individual" required> Individual</label><label><input type="radio" name="performanceCategory" value="Group"> Group</label></div></div><div id="groupMembersContainer" class="hidden"><label for="groupMembers" class="block text-gray-700 font-medium">If a group, please list the full names of ALL members.</label><textarea id="groupMembers" rows="3" class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></textarea></div><div><label for="primaryContactName" class="block text-gray-700 font-medium">Primary Contact Person's Full Name *</label><input type="text" id="primaryContactName" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div><div><label for="primaryContactEmail" class="block text-gray-700 font-medium">Primary Contact Email *</label><input type="email" id="primaryContactEmail" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div><div><label for="primaryContactPhone" class="block text-gray-700 font-medium">Primary Contact Phone Number *</label><input type="tel" id="primaryContactPhone" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div></div></div>
+                <!-- Step 2 --><div class="form-step"><h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Section 2 of 4: Performance Details</h3><div class="space-y-4"><div><label for="actTitle" class="block text-gray-700 font-medium">What is the title of your act? *</label><input type="text" id="actTitle" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg" placeholder="e.g., 'Singing I Have a Dream'"></div><div><label for="actDescription" class="block text-gray-700 font-medium">Please provide a brief description of your performance.</label><textarea id="actDescription" rows="3" class="w-full mt-1 p-3 border border-gray-300 rounded-lg" placeholder="This helps our MC introduce your act. 2-3 sentences."></textarea></div><div><label for="actDuration" class="block text-gray-700 font-medium">Estimated duration of your performance (in minutes) *</label><input type="number" id="actDuration" min="1" required class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div></div></div>
+                <!-- Step 3 --><div class="form-step"><h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Section 3 of 4: Technical & Staging Requirements</h3><div class="space-y-4"><div><label for="audioNeeds" class="block text-gray-700 font-medium">Audio Needs: How will we play your music/audio? (Optional)</label><input type="text" id="audioNeeds" class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div><div><label for="microphoneNeeds" class="block text-gray-700 font-medium">Microphone Needs (Optional)</label><input type="text" id="microphoneNeeds" class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></div><div><label for="stagingNeeds" class="block text-gray-700 font-medium">Staging & Equipment Needs (If any)</label><textarea id="stagingNeeds" rows="2" class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></textarea></div><div><label for="otherRequests" class="block text-gray-700 font-medium">Please list any other special requests or requirements:</label><textarea id="otherRequests" rows="2" class="w-full mt-1 p-3 border border-gray-300 rounded-lg"></textarea></div></div></div>
+                <!-- Step 4 --><div class="form-step"><h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Section 4 of 4: Agreement & Confirmation</h3><div><label class="block text-gray-700 font-medium">Photo & Video Release *</label><div class="mt-2 flex items-start"><input type="checkbox" id="photoRelease" required class="mt-1 h-5 w-5"><p class="ml-2 text-sm text-gray-600">I grant the event organizers permission to photograph and record my performance for non-commercial promotional use (e.g., on social media, future event flyers).</p></div></div></div>
+                <!-- Navigation --><div class="mt-8 flex justify-between"><button type="button" id="prevBtn" class="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-lg">Previous</button><button type="button" id="nextBtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg">Next</button><button type="submit" id="submitPerformanceBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg hidden">Submit Registration</button></div>
+            </form>
+             <button id="closePerformanceModalBtn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+        </div>
+    </div>
+
+  <script>
+    // --- IMPORTANT: PASTE YOUR WEB APP URL HERE ---
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxxQf8N7TIZyL-e2cvAdDenXa03t8sZ8c7M1hpV4biL7UC-T3z1Or8Bz6HT69V5_ZNd/exec";
+
+    // --- General Elements ---
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmationText = document.getElementById('confirmation-text');
+    const closeModalButton = document.getElementById('close-modal');
+    const celebrationContainer = document.getElementById('celebration-container');
+    const rsvpForm = document.getElementById('rsvpForm');
+    const potluckForm = document.getElementById('potluckForm');
+    const potluckListDiv = document.getElementById('potluckList');
+    const rsvpCountEl = document.getElementById('rsvpCount');
+    let colorPieChart = null; // To hold the chart instance
+
+    // --- Dynamic List Elements for Potluck ---
+    const addFoodBtn = document.getElementById('addFoodBtn');
+    const foodInput = document.getElementById('foodInput');
+    const foodListContainer = document.getElementById('foodListContainer');
+    const addMemberBtn = document.getElementById('addMemberBtn');
+    const groupMemberInput = document.getElementById('groupMemberInput');
+    const memberListContainer = document.getElementById('memberListContainer');
+    
+    // --- Performance Modal Elements ---
+    const performanceModal = document.getElementById('performance-modal');
+    const openPerformanceModalBtn = document.getElementById('openPerformanceModalBtn');
+    const closePerformanceModalBtn = document.getElementById('closePerformanceModalBtn');
+    const performanceForm = document.getElementById('performanceForm');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitPerformanceBtn = document.getElementById('submitPerformanceBtn');
+    const steps = Array.from(document.querySelectorAll('.form-step'));
+    let currentStep = 0;
+
+    // --- General Functions ---
+    function showConfirmation(message, isSuccess = true) {
+        confirmationText.textContent = message;
+        confirmationText.className = isSuccess ? 'text-xl text-green-600 font-medium' : 'text-xl text-red-600 font-medium';
+        confirmationModal.classList.remove('hidden');
+        setTimeout(() => confirmationModal.querySelector('div:not(#celebration-container)').classList.add('scale-100'), 10);
+    }
+
+    function triggerCelebration() {
+        celebrationContainer.innerHTML = '';
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            const colors = ['#ef4444', '#22c55e', '#facc15', '#3b82f6', '#ec4899', '#8b5cf6'];
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            celebrationContainer.appendChild(confetti);
+        }
+        setTimeout(() => celebrationContainer.innerHTML = '', 5000);
+    }
+
+    // --- Performance Modal Logic ---
+    function showStep(stepIndex) {
+        steps.forEach((step, index) => step.classList.toggle('active', index === stepIndex));
+        prevBtn.style.display = stepIndex === 0 ? 'none' : 'inline-block';
+        nextBtn.style.display = stepIndex === steps.length - 1 ? 'none' : 'inline-block';
+        submitPerformanceBtn.style.display = stepIndex === steps.length - 1 ? 'inline-block' : 'none';
+    }
+
+    function validateStep(stepIndex) {
+        const currentStepInputs = steps[stepIndex].querySelectorAll('[required]');
+        for (const input of currentStepInputs) { if (!input.checkValidity()) { input.reportValidity(); return false; } }
+        return true;
+    }
+
+    nextBtn.addEventListener('click', () => { if (validateStep(currentStep)) { currentStep++; showStep(currentStep); } });
+    prevBtn.addEventListener('click', () => { currentStep--; showStep(currentStep); });
+    openPerformanceModalBtn.addEventListener('click', () => performanceModal.classList.remove('hidden'));
+    closePerformanceModalBtn.addEventListener('click', () => performanceModal.classList.add('hidden'));
+    document.querySelector('input[name="performanceCategory"]').addEventListener('change', (e) => {
+        document.getElementById('groupMembersContainer').style.display = e.target.value === 'Group' ? 'block' : 'none';
+    });
+    
+    // --- Potluck Dynamic List Logic ---
+    function createListItem(text, container) {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'flex items-center justify-between bg-gray-100 p-2 rounded-lg';
+        itemDiv.textContent = text;
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.textContent = '✖';
+        removeBtn.className = 'text-red-500 hover:text-red-700 font-bold ml-2';
+        removeBtn.onclick = () => itemDiv.remove();
+        itemDiv.appendChild(removeBtn);
+        container.appendChild(itemDiv);
+    }
+    addFoodBtn.addEventListener('click', () => { if (foodInput.value.trim()) { createListItem(foodInput.value.trim(), foodListContainer); foodInput.value = ''; } });
+    addMemberBtn.addEventListener('click', () => { if (groupMemberInput.value.trim()) { createListItem(groupMemberInput.value.trim(), memberListContainer); groupMemberInput.value = ''; } });
+
+    // --- Form Submission Logic ---
+    rsvpForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = e.submitter;
+      btn.disabled = true; btn.textContent = 'Submitting...';
+      const formData = { name: name.value, email: email.value, phone: phone.value, sariColor: rsvpForm.querySelector('input[name="color"]:checked').value };
+      try {
+          await fetch(`${WEB_APP_URL}?action=rsvp`, { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+          showConfirmation('🎉 Celebration! Your RSVP is confirmed.'); triggerCelebration(); rsvpForm.reset();
+          fetchStatsData(); // Refresh stats after new RSVP
+      } catch (error) { showConfirmation('Sorry, an error occurred. Please try again.', false); } 
+      finally { btn.disabled = false; btn.innerHTML = 'Confirm RSVP 💃'; }
+    });
+
+    potluckForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.submitter;
+        const foods = [...foodListContainer.children].map(item => item.childNodes[0].textContent.trim());
+        if (foods.length === 0) { showConfirmation('Please add at least one food item.', false); return; }
+        btn.disabled = true; btn.textContent = 'Adding...';
+        const formData = { fullName: potluckName.value, aptNumber: aptNumber.value, foods: foods, groupMembers: [...memberListContainer.children].map(item => item.childNodes[0].textContent.trim()) };
+        try {
+            await fetch(`${WEB_APP_URL}?action=potluck`, { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+            showConfirmation('You are the best! Thanks for contributing! 🎊'); potluckForm.reset(); foodListContainer.innerHTML = ''; memberListContainer.innerHTML = ''; fetchPotluckData();
+        } catch (error) { showConfirmation('Sorry, an error occurred. Please try again.', false); }
+        finally { btn.disabled = false; btn.innerHTML = 'Add to Potluck 🍲'; }
+    });
+
+    performanceForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!validateStep(currentStep)) return;
+        const btn = e.submitter;
+        btn.disabled = true; btn.textContent = 'Registering...';
+        const formData = {
+            performerGroupName: performerGroupName.value, performanceCategory: performanceForm.querySelector('input[name="performanceCategory"]:checked').value, groupMembers: groupMembers.value,
+            primaryContactName: primaryContactName.value, primaryContactEmail: primaryContactEmail.value, primaryContactPhone: primaryContactPhone.value,
+            actTitle: actTitle.value, actDescription: actDescription.value, actDuration: actDuration.value, audioNeeds: audioNeeds.value,
+            microphoneNeeds: microphoneNeeds.value, stagingNeeds: stagingNeeds.value, otherRequests: otherRequests.value, photoRelease: photoRelease.checked ? 'Yes' : 'No'
+        };
+        try {
+            await fetch(`${WEB_APP_URL}?action=performance`, { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+            performanceModal.classList.add('hidden'); showConfirmation('✨ Your performance is registered! We are excited to see it!'); performanceForm.reset(); currentStep = 0; showStep(0);
+        } catch (error) { showConfirmation('Sorry, an error occurred. Please try again.', false); } 
+        finally { btn.disabled = false; btn.innerHTML = 'Submit Registration'; }
+    });
+
+    // --- Data Fetching & Rendering ---
+    async function fetchPotluckData() {
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=getPotluck`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json(); renderPotluckList(data);
+        } catch (error) { potluckListDiv.innerHTML = `<p class="text-center text-red-500">Could not load potluck data.</p>`; }
+    }
+    
+    async function fetchStatsData() {
+        try {
+            const response = await fetch(`${WEB_APP_URL}?action=getStats`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
+            rsvpCountEl.textContent = data.totalRsvps;
+            renderPieChart(data.colors);
+        } catch (error) {
+            rsvpCountEl.textContent = 'N/A';
+            console.error("Could not load stats data.", error);
+        }
+    }
+
+    function renderPieChart(colorData) {
+        const ctx = document.getElementById('colorPieChart').getContext('2d');
+        const labels = Object.keys(colorData);
+        const data = Object.values(colorData);
+
+        if (colorPieChart) {
+            colorPieChart.destroy(); // Destroy old chart instance before creating a new one
+        }
+
+        colorPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Attire Colors',
+                    data: data,
+                    backgroundColor: labels, // Use the color hex codes as the background
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    }
+    
+    function renderPotluckList(items) {
+        potluckListDiv.innerHTML = '';
+        if (!items || items.length === 0) { potluckListDiv.innerHTML = `<p class="text-center text-gray-500">Be the first to sign up for the potluck!</p>`; return; }
+        items.forEach(item => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'flex justify-between items-center bg-white p-3 rounded-md shadow-sm';
+            itemEl.innerHTML = `<span class="font-semibold text-gray-800">${item.food}</span><span class="text-sm text-gray-500">${item.name}</span>`;
+            potluckListDiv.appendChild(itemEl);
+        });
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', () => {
+        if (WEB_APP_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
+             potluckListDiv.innerHTML = `<p class="text-center text-orange-500">Please update the WEB_APP_URL in the script to connect to Google Sheets.</p>`;
+             rsvpCountEl.textContent = 'N/A';
+        } else { 
+            fetchPotluckData();
+            fetchStatsData();
+        }
+        showStep(0);
+    });
+    
+    closeModalButton.addEventListener('click', () => {
+        confirmationModal.querySelector('div:not(#celebration-container)').classList.remove('scale-100');
+        confirmationModal.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
