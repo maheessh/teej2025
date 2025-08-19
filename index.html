@@ -289,7 +289,7 @@
 
         <script>
             // --- IMPORTANT: PASTE YOUR WEB APP URL HERE ---
-            const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxxQf8N7TIZyL-e2cvAdDenXa03t8sZ8c7M1hpV4biL7UC-T3z1Or8Bz6HT69V5_ZNd/exec";
+            const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxetFo_hSxM3GoWV83yZaria5KJEJqmvJGEDyUHq8F8Vir98IfERHl6p5nr1sni8Jv3/exec";
 
             // --- General Elements ---
             const confirmationModal = document.getElementById('confirmation-modal');
@@ -487,15 +487,36 @@
             }
 
             function renderPotluckList(items) {
-                potluckListDiv.innerHTML = '';
-                if (!items || items.length === 0) { potluckListDiv.innerHTML = `<p class="text-center text-gray-500">Be the first to sign up for the potluck!</p>`; return; }
-                items.forEach(item => {
-                    const itemEl = document.createElement('div');
-                    itemEl.className = 'flex justify-between items-center bg-white p-3 rounded-md shadow-sm';
-                    itemEl.innerHTML = `<span class="font-semibold text-gray-800">${item.food}</span><span class="text-sm text-gray-500">${item.name}</span>`;
-                    potluckListDiv.appendChild(itemEl);
-                });
-            }
+  potluckListDiv.innerHTML = '';
+  if (!items || items.length === 0) {
+    potluckListDiv.innerHTML = `<p class="text-center text-gray-500">Be the first to sign up for the potluck!</p>`;
+    return;
+  }
+
+  items.forEach(item => {
+    const itemEl = document.createElement('div');
+    itemEl.className = 'bg-white p-3 rounded-md shadow-sm border border-gray-200';
+
+    const nameHtml = `<span class="font-semibold text-gray-800">${item.name}</span>`;
+    const foodHtml = `<span class="text-md text-red-600 font-medium">🍽 ${item.food}</span>`;
+    const membersHtml = item.groupMembers
+      ? `<p class="text-sm text-gray-500 mt-1">👥 ${item.groupMembers}</p>`
+      : '';
+
+    itemEl.innerHTML = `
+      <div class="flex justify-between items-center">
+        ${foodHtml}
+        <div class="text-right">
+          ${nameHtml}
+          ${membersHtml}
+        </div>
+      </div>
+    `;
+
+    potluckListDiv.appendChild(itemEl);
+  });
+}
+
 
             // --- Initial Load ---
             document.addEventListener('DOMContentLoaded', () => {
