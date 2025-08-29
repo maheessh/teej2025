@@ -83,6 +83,14 @@
         <div id="voting-section" class="form-section">
             <h2 class="text-3xl font-bold text-center text-red-600 mb-6">Live Voting 🗳️</h2>
             <form id="votingForm" class="space-y-8">
+                <!-- NEW: Email Input Field -->
+                <div>
+                    <label for="voterEmail" class="block text-gray-700 font-bold mb-2 text-center">Enter Your SELU Email to Vote</label>
+                    <input type="email" id="voterEmail" required
+                           class="w-full max-w-md mx-auto mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 focus:outline-none transition"
+                           placeholder="your.name@selu.edu" />
+                </div>
+                
                 <div>
                     <h3 class="text-2xl font-semibold text-center text-gray-800 mb-4">Mr. & Ms. Fresher 2025</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -335,7 +343,7 @@
 
     <script>
         // --- IMPORTANT: PASTE YOUR WEB APP URL HERE ---
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwcE7WbnEbXT_RmCHgzktlfORcvWbgXgL8huol81htQQir23KxCjyiJExNEsTEP0ojm/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwQm8FAY5CPTshjn6U0_gk0rbUEXTzajRBSnqvDfkBXe6DsvaQcmeZmmBuyrzyWB3op/exec";
 
         // --- General Elements ---
         const confirmationModal = document.getElementById('confirmation-modal');
@@ -493,9 +501,15 @@
         votingForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = e.submitter;
+            const voterEmail = document.getElementById('voterEmail').value;
             const mrFresherVote = votingForm.querySelector('input[name="mrFresher"]:checked');
             const msFresherVote = votingForm.querySelector('input[name="msFresher"]:checked');
             const performanceVote = votingForm.querySelector('input[name="performanceVote"]:checked');
+
+            if (!voterEmail.toLowerCase().endsWith('@selu.edu')) {
+                showConfirmation("Invalid email. Please use your @selu.edu email to vote.", false);
+                return;
+            }
 
             if (!mrFresherVote || !msFresherVote || !performanceVote) {
                 showConfirmation("Please make a selection in all voting categories.", false);
@@ -506,19 +520,28 @@
             btn.textContent = 'Submitting...';
 
             const formData = {
+                voterEmail: voterEmail,
                 mrFresher: mrFresherVote.value,
                 msFresher: msFresherVote.value,
                 performance: performanceVote.value
             };
 
             try {
-                 await fetch(`${WEB_APP_URL}?action=submitVote`, { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
-                 showConfirmation('✅ Thank you! Your votes have been counted.');
-                 votingForm.reset();
-                 btn.disabled = true;
-                 btn.textContent = 'Votes Submitted ✔️';
+                const response = await fetch(`${WEB_APP_URL}?action=submitVote`, { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showConfirmation('✅ Thank you! Your votes have been counted.');
+                    votingForm.reset();
+                    btn.disabled = true;
+                    btn.textContent = 'Votes Submitted ✔️';
+                } else {
+                    showConfirmation(result.message || 'An error occurred.', false);
+                    btn.disabled = false;
+                    btn.textContent = 'Submit Your Votes 👍';
+                }
             } catch (error) {
-                 showConfirmation('Sorry, an error occurred. Please try again.', false);
+                 showConfirmation('Sorry, a network error occurred. Please try again.', false);
                  btn.disabled = false;
                  btn.textContent = 'Submit Your Votes 👍';
             }
@@ -692,7 +715,7 @@
                 fetchFreshersData();
                 fetchPerformancesData();
                 fetchVoteResults();
-                setInterval(fetchVoteResults, 15000); // <-- THIS IS THE CORRECTED PART
+                setInterval(fetchVoteResults, 15000);
             }
             showStep(0);
         });
